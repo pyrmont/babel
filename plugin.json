@@ -1,0 +1,10 @@
+{
+    "name": "Babel",
+    "version": "1.0",
+    "description": "Dislay your content in multiple languages.",
+    "demo": "http://hipsterdoofu.us/babel/",
+    "author": {
+        "name": "Hipster Doofus",
+        "link": "http://hipsterdoof.us"
+    }
+}
