@@ -6,5 +6,38 @@
     "author": {
         "name": "Hipster Doofus",
         "link": "http://hipsterdoof.us"
+    },
+    
+    "data": {
+        "separator": {
+            "label": "Separator",
+            "info": "Enter the characters you want to use to delineate between languages. Babel will separate languages using this separator.",
+            "type": "string",
+            "placeholder": "eg. |||",
+            "validation": {
+                "type": "not_empty",
+                "error_message": "Please enter a separator."
+            }
+        },
+
+        "l1": {
+            "label": "First Language",
+            "info": "",
+            "type": "select",
+            "options": [
+                { "label": "English", "value": "en" },
+                { "label": "Japanese", "value": "ja" }
+            ]
+        },
+        
+        "l2": {
+            "label": "Second Language",
+            "info": "",
+            "type": "select",
+            "options": [
+                { "label": "Japanese", "value": "ja" },
+                { "label": "English", "value": "en" }
+            ]
+        }
     }
 }
