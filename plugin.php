@@ -3,6 +3,8 @@
 class HD_Babel extends KokenPlugin {
 
     const TAG = 'babel';
+    const DELIM = '\u200C';
+    const LANG_DEFAULT = 0;
 
     protected $delim;
     protected $sep;
@@ -18,17 +20,22 @@ class HD_Babel extends KokenPlugin {
         $this->register_filter('api.text', 'setup');
         $this->register_filter('site.output', 'setup');
 
-        $this->register_filter('api.album', 'tag_album');
-        $this->register_filter('api.content', 'tag_content');
-        $this->register_filter('api.text', 'tag_text');
+        $this->register_filter('api.album', 'delimit_album');
+        $this->register_filter('api.content', 'delimit_content');
+        $this->register_filter('api.text', 'delimit_text');
         $this->register_filter('site.output', 'parse_output');
     }
 
+    /**
+     * Sets up various instance variables that cannot be instantiated in the constructor.
+     * @param mixed $data   Not used but required to be in the function definition for Koken's register_filter to work properly.
+     * @return mixed        The $data parameter, unchanged.
+     */
     function setup($data)
     {
-        if (isset($this->sep, $this->langs, $this->lang) === true) { return $data; } // Setup has already been performed.
+        if (isset($this->sep, $this->langs, $this->lang) === true) { return $data; }
 
-        $this->delim = json_decode('"' . '\u200C' . '"');
+        $this->delim = json_decode('"' . self::DELIM . '"');
 
         $this->sep = $this->data->separator;
 
@@ -37,13 +44,18 @@ class HD_Babel extends KokenPlugin {
         array_push($this->langs, $this->data->l2);
 
         $choice = ($_COOKIE['lang'] != '') ? $_COOKIE['lang'] : 'default';
-        $this->lang = ($choice !== 'default') ? array_search($choice, $this->langs) : 1; // Uses the first language if no language has been set.
+        $this->lang = ($choice !== 'default') ? array_search($choice, $this->langs) : self::LANG_DEFAULT;
         $this->lang = ($this->lang === false) ? 0 : $this->lang;
 
         return $data;
     }
 
-    function tag_album($data)
+    /**
+     * Delimits the title, summary and description fields associated with an album using Babel's delimiter.
+     * @param array $data   An array containing the title, summary and description data.
+     * @return array        The updated $data array.
+     */
+    function delimit_album($data)
     {
         $fields = array('title', 'summary', 'description');
         foreach ($fields as $field)
@@ -55,7 +67,12 @@ class HD_Babel extends KokenPlugin {
         return $data;
     }
 
-    function tag_content($data)
+    /**
+     * Delimits the title and caption fields associated with a piece of content using Babel's delimiter.
+     * @param array $data   An array containing the title, summary and description data.
+     * @return array        The updated $data array.
+     */
+    function delimit_content($data)
     {
         $fields = array('title', 'caption');
         foreach ($fields as $field)
@@ -67,7 +84,12 @@ class HD_Babel extends KokenPlugin {
         return $data;
     }
 
-    function tag_text($data)
+    /**
+     * Delimits the title, excerpt and content fields associated with a piece of text using Babel's delimiter.
+     * @param array $data   An array containing the title, summary and description data.
+     * @return array        The updated $data array.
+     */
+    function delimit_text($data)
     {
         $fields = array('title', 'excerpt', 'content');
         foreach ($fields as $field)
@@ -79,30 +101,35 @@ class HD_Babel extends KokenPlugin {
         return $data;
     }
 
+    /**
+     * Parses the HTML output prior to delivery to the browser and filters out languages other than that selected.
+     * First, filters based on Babel's delimiter, then Babel's tag and finally on the user set separator.
+     * @param string $html   A string containing the HTML output.
+     * @return string        The filtered HTML.
+     */
     function parse_output($html)
     {
-        Koken::$cache_path = str_replace('/cache.', '/cache.' . $this->langs[$this->lang] . '.', Koken::$cache_path);
+        Koken::$cache_path = $this->mb_str_replace('/cache.', '/cache.' . $this->langs[$this->lang] . '.', Koken::$cache_path);
 
-        $dom = new DOMDocument();
-        $dom->loadHTML($html);
+        $html = $this->filter_on_delim($html);
+        $html = $this->filter_on_tag($html);
+        $html = $this->filter_on_sep($html);
 
-        $output = $html;
-        $output = $this->filter_on_delim($dom, $output);
-        // $output = $this->filter_on_tag($dom, $output);
-        $output = $this->filter_on_sep($dom, $output);
-
-        return $output;
+        return $html;
     }
 
-    private function filter_on_delim($html)
+    private function filter_on_delim($html, $delims = null)
     {
-        $html = preg_replace_callback("/" . $this->delim . "(.*?)" . $this->delim . "/s", function($matches) {
+        $delims = $delims ?: array('open' => $this->delim, 'close' => $this->delim);
+
+        foreach ($delims as &$delim) {
+            $delim = preg_quote($delim, '/');
+        }
+
+        $html = preg_replace_callback('/' . $delims['open'] . '(.*?)' . $delims['close'] . '/s', function($matches) {
             $text = $matches[1];
 
-            if (strpos($text, $this->sep) === false)
-            {
-                return $text;
-            }
+            if (strpos($text, $this->sep) === false) { return $text; }
 
             if (strpos($text, '<') !== false)
             {
@@ -135,48 +162,23 @@ class HD_Babel extends KokenPlugin {
         return $html;
     }
 
-    private function filter_on_tag($dom, $html)
+    private function filter_on_tag($html)
     {
-        $elements = $dom->getElementsByTagName(self::TAG);
-        $output = mb_ereg_replace("/\s+|\n+|\r/", ' ', $html);
+        $delims = array('open' => '<' . self::TAG . '>', 'close' => '</' . self::TAG . '>');
 
-        foreach ($elements as $element)
-        {
-            $needle = '';
-            $inner_html = '';
-            foreach ($element->childNodes as $childNode)
-            {
-                $needle = $needle . $dom->saveHTML($childNode);
-                $inner_html = ($childNode->nodeValue === $this->sep) ? $inner_html . $this->sep : $inner_html . $dom->saveHTML($childNode);
-            }
-            $needle = str_replace('> <', '><', preg_replace("/\s+|\n+|\r/", ' ', $needle));
-
-            $pieces = explode($this->sep, $inner_html);
-            $replacement = '';
-            for ($i = 0; $i < sizeof($pieces); $i++)
-            {
-                $replacement = ($i == $this->lang) ? $replacement . $pieces[$i] : $replacement . '';
-            }
-
-            $output = str_replace($needle, $replacement, $output);
-        }
-
-        $output = str_ireplace('<' . self::TAG . '>', '', $output);
-        $output = str_ireplace('</' . self::TAG . '>', '', $output);
-
-        return $output;
+        $html = $this->filter_on_delim($html, $delims);
+        return $html;
     }
 
-    private function filter_on_sep($dom, $html)
+    private function filter_on_sep($html)
     {
+        $dom = new DOMDocument();
+        $dom->loadHTML($html);
         $xpath = new DOMXpath($dom);
-        $elements = $xpath->query("//*[text()[contains(.,'" . $this->sep . "')]]");
-        $output = $html;
 
+        $elements = $xpath->query("//*[text()[contains(.,'" . $this->sep . "')]]");
         foreach ($elements as $element)
         {
-            // if (title) { ... } Title is a special case that needs to be handled differently.
-
             $inner_html = '';
             foreach ($element->childNodes as $childNode)
             {
@@ -188,14 +190,14 @@ class HD_Babel extends KokenPlugin {
             {
                 if ($i != $this->lang)
                 {
-                    $output = str_replace($pieces[$i], '', $output);
+                    $html = $this->mb_str_replace($pieces[$i], '', $html);
                 }
             }
         }
 
-        $output = str_replace($this->sep, '', $output);
+        $html = $this->mb_str_replace($this->sep, '', $html);
 
-        return $output;
+        return $html;
     }
 
     private function mb_str_replace($needle, $replacement, $haystack)
