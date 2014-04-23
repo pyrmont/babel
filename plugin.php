@@ -43,8 +43,7 @@ class HD_Babel extends KokenPlugin {
         array_push($this->langs, $this->data->l1);
         array_push($this->langs, $this->data->l2);
 
-        $choice = ($_COOKIE['lang'] != '') ? $_COOKIE['lang'] : 'default';
-        $this->lang = ($choice !== 'default') ? array_search($choice, $this->langs) : self::LANG_DEFAULT;
+        $this->lang = ($_COOKIE['lang'] && array_search($_COOKIE['lang'], $this->langs)) ? array_search($_COOKIE['lang'], $this->langs) : self::LANG_DEFAULT;
         $this->lang = ($this->lang === false) ? 0 : $this->lang;
 
         return $data;
