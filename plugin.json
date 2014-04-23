@@ -11,7 +11,7 @@
     "data": {
         "separator": {
             "label": "Separator",
-            "info": "Enter the characters you want to use to delineate between languages. Babel will separate languages using this separator.",
+            "info": "Enter one or more characters as the separator you will use when writing in Koken to distinguish between languages. Babel will automatically separate languages using these characters so you should choose a combination you will not otherwise want to use.",
             "type": "string",
             "placeholder": "eg. |||",
             "validation": {

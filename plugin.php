@@ -206,9 +206,11 @@ class HD_Babel extends KokenPlugin {
 
     private function filter_on_tag($html)
     {
-        $delims = array('open' => '<' . self::TAG . '>', 'close' => '</' . self::TAG . '>');
+        $html = preg_replace_callback('/<' . self::TAG . ':([A-z][A-z])>(.*)<\/' . self::TAG . ':\1>/s', function($matches) {
+            $text = ($matches[1] == $this->langs[$this->lang]['code']) ? $matches[2] : '';
+            return $text;
+        }, $html);
 
-        $html = $this->filter_on_delim($html, $delims);
         return $html;
     }
 
