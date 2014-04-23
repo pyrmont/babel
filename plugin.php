@@ -15,6 +15,10 @@ class HD_Babel extends KokenPlugin {
     {
         $this->require_setup = true;
 
+        $this->register_hook('after_opening_body', 'setup');
+
+        $this->register_hook('after_opening_body', 'insert_controls');
+
         $this->register_filter('api.album', 'setup');
         $this->register_filter('api.content', 'setup');
         $this->register_filter('api.text', 'setup');
@@ -40,13 +44,52 @@ class HD_Babel extends KokenPlugin {
         $this->sep = $this->data->separator;
 
         $this->langs = [];
-        array_push($this->langs, $this->data->l1);
-        array_push($this->langs, $this->data->l2);
+        foreach ($this->data as $key => $val)
+        {
+            if (preg_match('/l([0-9]+)$/', $key) && strpos($val, '|') !== false)
+            {
+                $matches = [];
+                preg_match('/l([0-9]+)$/', $key, $matches);
+                $pieces = explode('|', $val);
+                $lang = [];
+                $lang['name'] = $pieces[0];
+                $lang['code'] = $pieces[1];
+                $lang['order'] = $matches[1] - 1;
+                $this->langs[$lang['order']] = $lang;
+            }
+        }
 
-        $this->lang = ($_COOKIE['lang'] && array_search($_COOKIE['lang'], $this->langs)) ? array_search($_COOKIE['lang'], $this->langs) : self::LANG_DEFAULT;
-        $this->lang = ($this->lang === false) ? 0 : $this->lang;
+        $this->lang = self::LANG_DEFAULT;
+        if ($_COOKIE['babel_lang'])
+        {
+            foreach ($this->langs as $lang)
+            {
+                if ($lang['code'] === $_COOKIE['babel_lang'])
+                {
+                    $this->lang = $lang['order'];
+                    break;
+                }
+            }
+        }
 
         return $data;
+    }
+
+    /**
+     * Inserts controls to change the language after the opening <body> tag. Controls are wrapped in a <div>
+     * for easy manipulation via CSS.
+     */
+    function insert_controls()
+    {
+        $langs = $this->langs;
+        $current = $this->langs[$this->lang];
+
+        ob_start();
+        include('inc/controls.php');
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        echo $html;
     }
 
     /**

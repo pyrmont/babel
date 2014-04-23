@@ -7,7 +7,7 @@
         "name": "Hipster Doofus",
         "link": "http://hipsterdoof.us"
     },
-    
+
     "data": {
         "separator": {
             "label": "Separator",
@@ -25,18 +25,18 @@
             "info": "",
             "type": "select",
             "options": [
-                { "label": "English", "value": "en" },
-                { "label": "Japanese", "value": "ja" }
+                { "label": "English", "value": "English|en" },
+                { "label": "Japanese", "value": "Japanese|ja" }
             ]
         },
-        
+
         "l2": {
             "label": "Second Language",
             "info": "",
             "type": "select",
             "options": [
-                { "label": "Japanese", "value": "ja" },
-                { "label": "English", "value": "en" }
+                { "label": "Japanese", "value": "Japanese|ja" },
+                { "label": "English", "value": "English|en" }
             ]
         }
     }
