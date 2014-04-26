@@ -38,6 +38,160 @@
                 { "label": "Japanese", "value": "Japanese|ja" },
                 { "label": "English", "value": "English|en" }
             ]
+        },
+
+        "content_pl": {
+            "label": "Content Plural",
+            "info": "Enter translations for the plural label for 'Content'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Contents ||| 写真と動画"
+        },
+
+        "content_sg": {
+            "label": "Content Singular",
+            "info": "Enter translations for the singular label for 'Content'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Content ||| 写真と動画"
+        },
+
+        "favorite_pl": {
+            "label": "Favorite Plural",
+            "info": "Enter translations for the plural label for 'Favorite'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Favorites ||| お気に入り"
+        },
+
+        "favorite_sg": {
+            "label": "Favorite Singular",
+            "info": "Enter translations for the singular label for 'Favorite'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Favorite ||| お気に入り"
+        },
+
+        "album_pl": {
+            "label": "Album Plural",
+            "info": "Enter translations for the plural label for 'Album'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Albums ||| アルバム"
+        },
+
+        "album_sg": {
+            "label": "Album Singular",
+            "info": "Enter translations for the singualr label for 'Album'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Album ||| アルバム"
+        },
+
+        "set_pl": {
+            "label": "Set Plural",
+            "info": "Enter translations for the plural label for 'Set'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Sets ||| セット"
+        },
+
+        "set_sg": {
+            "label": "Set Singular",
+            "info": "Enter translations for the plural label for 'Set'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Set ||| セット"
+        },
+
+        "essay_pl": {
+            "label": "Essay Plural",
+            "info": "Enter translations for the plural label for 'Essay'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Essays ||| 小論"
+        },
+
+        "essay_sg": {
+            "label": "Essay Singular",
+            "info": "Enter translations for the singular label for 'Essay'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Essay ||| 小論"
+        },
+
+        "page_pl": {
+            "label": "Page Plural",
+            "info": "Enter translations for the plural label for 'Page'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Pages ||| ページ"
+        },
+
+        "page_sg": {
+            "label": "Page Plural",
+            "info": "Enter translations for the singular label for 'Page'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Page ||| ページ"
+        },
+
+        "tag_pl": {
+            "label": "Tag Plural",
+            "info": "Enter translations for the plural label for 'Tag'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Tags ||| タッグ"
+        },
+
+        "tag_sg": {
+            "label": "Tag Singular",
+            "info": "Enter translations for the singular label for 'Tag'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Tag ||| タッグ"
+        },
+
+        "category_pl": {
+            "label": "Category Plural",
+            "info": "Enter translations for the plural label for 'Category'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Categories ||| カテゴリー"
+        },
+
+        "category_sg": {
+            "label": "Category Singular",
+            "info": "Enter translations for the singular label for 'Category'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Category ||| カテゴリー"
+        },
+
+        "timeline_pl": {
+            "label": "Timeline Plural",
+            "info": "Enter translations for the plural label for 'Timeline'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Timelines ||| タイムライン"
+        },
+
+        "timeline_sg": {
+            "label": "Timeline Singular",
+            "info": "Enter translations for the singular label for 'Timeline'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Timeline ||| タイムライン"
+        },
+
+        "archive_pl": {
+            "label": "Archive Plural",
+            "info": "Enter translations for the plural label for 'Archive'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Archives ||| アーカイブ"
+        },
+
+        "archive_sg": {
+            "label": "Archive Singular",
+            "info": "Enter translations for the singular label for 'Archive'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Archive ||| アーカイブ"
+        },
+
+        "home": {
+            "label": "Home",
+            "info": "Enter translations for the label for 'Home'. The translations should be in the same order as the languages selected above and use the separator entered above. Please note this will overwrite the labels you have entered in Settings.",
+            "type": "string",
+            "placeholder": "eg. Home ||| ホーム"
+        },
+
+        "read_more": {
+            "label": "Read More",
+            "info": "Enter translations for the text that appears when text is truncated. The translations should be in the same order as the languages selected above and use the separate entered above.",
+            "type": "string",
+            "placeholder": "eg. Read more ||| 続きを読む"
         }
     }
 }

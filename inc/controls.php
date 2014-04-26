@@ -1,6 +1,6 @@
 <?php
     $form_url = '/Storage/plugins/hd-babel/inc/handler.php';
-    $return_url = 'http://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
+    $return_url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 ?>
 
 <div id="babel_lang_controls">
